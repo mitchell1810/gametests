@@ -1,0 +1,35 @@
+package tests;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+
+public class BaseWireMockTest extends BaseRestAssuredTest {
+
+    protected static final long EXPECTED_AVERAGE_TIME = 200L;
+    protected static final int REQUEST_COUNT_FOR_AVERAGE_TIME_TESTS = 10;
+
+    protected static final String AUTH_MOCK_URL = appConfigLoader.getProperties().getProperty("mock.auth.url");
+    protected static final String DO_ACTION_MOCK_URL = appConfigLoader.getProperties().getProperty("mock.do.action.url");
+
+    private static final int PORT = Integer.parseInt(appConfigLoader.getProperties().getProperty("wiremock.port"));
+    private static final String HOST = appConfigLoader.getProperties().getProperty("wiremock.host");
+    private static WireMockServer wireMockServer;
+
+    @BeforeEach
+    public void startWireMock() {
+        wireMockServer = new WireMockServer(options().port(PORT));
+        wireMockServer.start();
+        configureFor(HOST, PORT);
+    }
+
+    @AfterEach
+    public void stopWireMock() {
+        if (wireMockServer != null) {
+            wireMockServer.stop();
+        }
+    }
+}
