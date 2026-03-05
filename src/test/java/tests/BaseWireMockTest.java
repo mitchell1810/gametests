@@ -1,12 +1,14 @@
 package tests;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
+@Slf4j
 public class BaseWireMockTest extends BaseRestAssuredTest {
 
     protected static final long EXPECTED_AVERAGE_TIME = 200L;
@@ -32,4 +34,10 @@ public class BaseWireMockTest extends BaseRestAssuredTest {
             wireMockServer.stop();
         }
     }
+
+    protected void setupMocks(String mockUrl, int expectedStatusCode){
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", mockUrl, expectedStatusCode);
+        stubFor(post(mockUrl).willReturn(aResponse().withStatus(expectedStatusCode)));
+    }
+
 }

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import tests.BaseWireMockTest;
 import utils.TokenGenerator;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static helpers.RestHelper.sendPostActionWithoutStatusCheck;
 import static helpers.RestHelper.sendPostLoginCheckStatus200;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,8 +30,7 @@ public class TestActionWithImitationOfLogin extends BaseWireMockTest {
             "после успешного логина")
     public void testActionWithStoredHexadecimalTokenSuccessWithMockedLogin() {
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(AUTH_MOCK_URL, Status.SUCCESS.getCode());
 
         String token = TokenGenerator.getHexadecimalToken();
 

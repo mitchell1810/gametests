@@ -35,14 +35,13 @@ public class TestActionWithImitationOfLoginAndAction extends BaseWireMockTest {
             "выполняется при отсутствии заголовка 'Content-Type'")
     public void testActionMissedContentTypeSuccessWithMockedFully() {
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(AUTH_MOCK_URL, Status.SUCCESS.getCode());
+
         String token = TokenGenerator.getHexadecimalToken();
 
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
 
         Map<String, String> headersMap = new HashMap<>(Map.ofEntries(
                 Map.entry("Accept", "application/json"),
@@ -72,15 +71,13 @@ public class TestActionWithImitationOfLoginAndAction extends BaseWireMockTest {
             "выполняется при отсутствии заголовка 'Accept'")
     public void testActionMissedAcceptSuccessWithMockedFully() {
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(AUTH_MOCK_URL, Status.SUCCESS.getCode());
 
         String token = TokenGenerator.getHexadecimalToken();
 
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
 
         Map<String, String> headersMap = new HashMap<>(Map.ofEntries(
                 Map.entry("Content-Type", "application/x-www-form-urlencoded"),
@@ -109,15 +106,13 @@ public class TestActionWithImitationOfLoginAndAction extends BaseWireMockTest {
     @Story(value = "POST запрос для ACTION (после LOGIN с сохранением token) выполняется")
     public void testActionAfterLoginSuccessWithMockedFully() {
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(AUTH_MOCK_URL, Status.SUCCESS.getCode());
 
         String token = TokenGenerator.getHexadecimalToken();
 
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
 
         Response response = sendPostActionWithoutStatusCheck(ENDPOINT, token);
 
@@ -140,15 +135,13 @@ public class TestActionWithImitationOfLoginAndAction extends BaseWireMockTest {
     @Story(value = "POST запрос для нескольких(2) ACTION (после LOGIN с сохранением token) выполняется")
     public void testActionsAfterLoginSuccessWithMockedFully() {
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(AUTH_MOCK_URL, Status.SUCCESS.getCode());
 
         String token = TokenGenerator.getHexadecimalToken();
 
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
-        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
-        stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+        setupMocks(DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
 
         for (int i = 0; i < 2; i++) {
             Response response = sendPostActionWithoutStatusCheck(ENDPOINT, token);
