@@ -36,8 +36,11 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "c использованием моков для LOGIN действия")
     public void testLogoutAfterLoginSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
         Response response = sendPostLogoutWithoutStatusCheck(ENDPOINT, token);
@@ -62,9 +65,14 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "c использованием моков для LOGIN,ACTION действий")
     public void testLogoutAfterLoginAndActionSuccessWithMockedFully() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
+
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
         sendPostActionCheckStatus200(ENDPOINT, token);
 
@@ -90,10 +98,14 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "c использованием моков для LOGIN,ACTION действий")
     public void testLogoutAfterLoginAndActionsSuccessWithMockedFully() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", DO_ACTION_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(DO_ACTION_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
         for (int i = 0; i < 2; i++)
             sendPostActionCheckStatus200(ENDPOINT, token);
@@ -120,8 +132,11 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "выполняется при отсутствии заголовка 'Content-Type'")
     public void testLogoutMissedContentTypeSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
         Map<String, String> headersMap = new HashMap<>(Map.ofEntries(
@@ -152,8 +167,11 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "выполняется при отсутствии заголовка 'Accept'")
     public void testLogoutMissedAcceptSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
         Map<String, String> headersMap = new HashMap<>(Map.ofEntries(
@@ -185,6 +203,7 @@ public class TestLogoutWithImitationOfLoginAndAction extends BaseWireMockTest {
             "c использованием моков для LOGIN действия")
     public void testLogoutAverageResponseTimeSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
 
         long sumTime = 0;

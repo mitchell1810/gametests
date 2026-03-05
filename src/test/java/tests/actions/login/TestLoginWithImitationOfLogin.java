@@ -35,6 +35,7 @@ public class TestLoginWithImitationOfLogin extends BaseWireMockTest {
     @Story(value = "POST запрос для LOGIN выполняется при отсутствии заголовка 'Content-Type'")
     public void testLoginMissedContentTypeSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
 
         String token = TokenGenerator.getHexadecimalToken();
@@ -66,6 +67,7 @@ public class TestLoginWithImitationOfLogin extends BaseWireMockTest {
     @Story(value = "POST запрос для LOGIN выполняется при отсутствии заголовка 'Accept'")
     public void testLoginMissedAcceptSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
 
         String token = TokenGenerator.getHexadecimalToken();
@@ -97,6 +99,7 @@ public class TestLoginWithImitationOfLogin extends BaseWireMockTest {
     @Story(value = "Проверка успешного действия LOGIN c использованием моков")
     public void testLoginWithAlphaNumericTokenSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
 
         Response response = sendPostLoginWithoutStatusCheck(ENDPOINT, TokenGenerator.getHexadecimalToken());
@@ -122,6 +125,7 @@ public class TestLoginWithImitationOfLogin extends BaseWireMockTest {
             "c использованием моков для LOGIN действия")
     public void testLoginAverageResponseTimeSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
 
         long sumTime = 0;

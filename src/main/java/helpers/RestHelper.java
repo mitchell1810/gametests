@@ -3,12 +3,14 @@ package helpers;
 import enums.Actions;
 import enums.Status;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
+@Slf4j
 public class RestHelper {
 
     public static Map<String, String> getCorrectHeaders() {
@@ -101,6 +103,16 @@ public class RestHelper {
     ) {
         var parameters = addParameters(token, action);
 
+        log.info("Посылаю POST запрос на эндпоинт '{}' " +
+                        "c параметром Action = '{}' " +
+                        "c параметром token = '{}' " +
+                        "с заголовками: '{}'",
+                entityUrl,
+                (action == null) ? "null" : action.name(),
+                (token == null) ? "null" : token,
+                headers
+        );
+
         Response response = given()
                 .log().all()
                 .headers(headers)
@@ -109,17 +121,18 @@ public class RestHelper {
                 .post(entityUrl);
 
         if (checkStatus) {
+            log.info("Проверяю Status Code на соответствие '{}' коду", expectedStatus);
             response.then().assertThat().statusCode(expectedStatus);
         }
 
         return response;
     }
 
-    private static Map<String, Object> addParameters( String token, Actions action){
+    private static Map<String, Object> addParameters(String token, Actions action) {
         var parameters = new HashMap<String, Object>();
-        if(token!=null)
+        if (token != null)
             parameters.put("token", token);
-        if(action!=null)
+        if (action != null)
             parameters.put("action", action.name());
         return parameters;
     }

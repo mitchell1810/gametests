@@ -31,8 +31,11 @@ public class TestActionWithImitationOfLogin extends BaseWireMockTest {
             "после успешного логина")
     public void testActionWithStoredHexadecimalTokenSuccessWithMockedLogin() {
 
+        log.info("Устанавливаю моки для {} c возвратом Status Code {}", AUTH_MOCK_URL, Status.SUCCESS.getCode());
         stubFor(post(AUTH_MOCK_URL).willReturn(aResponse().withStatus(Status.SUCCESS.getCode())));
+
         String token = TokenGenerator.getHexadecimalToken();
+
         sendPostLoginCheckStatus200(ENDPOINT, token);
 
         Response response = sendPostActionWithoutStatusCheck(ENDPOINT, token);
