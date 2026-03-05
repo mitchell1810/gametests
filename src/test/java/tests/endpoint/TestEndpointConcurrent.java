@@ -34,7 +34,6 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
             "'action: invalid action 'INVALID_ACTION'. Allowed: LOGIN, LOGOUT, ACTION'")
     public void testInvalidActionError() {
 
-        log.info("Посылаю POST запрос на {} с некорректным значением Action: {}", ENDPOINT, Actions.INVALID_ACTION.name());
         Response response = sendPostWithDynamicHeadersAndParams(
                 ENDPOINT,
                 getCorrectHeaders(),
@@ -69,7 +68,6 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
             "'action: invalid action 'null'. Allowed: LOGIN, LOGOUT, ACTION'")
     public void testMissedActionError() {
 
-        log.info("Посылаю POST запрос на {} с некорректным значением Action: {}", ENDPOINT, null);
         Response response = sendPostWithDynamicHeadersAndParams(
                 ENDPOINT,
                 getCorrectHeaders(),

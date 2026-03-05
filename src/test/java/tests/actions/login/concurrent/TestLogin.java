@@ -5,6 +5,7 @@ import enums.Result;
 import enums.Status;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Flaky;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class TestLogin extends BaseRestAssuredTest {
     @Epic(value = "Проверка действия пользователя")
     @Feature(value = "LOGIN")
     @Story(value = "Проверка успешного LOGIN с token, соответствующим выражению из ошибки приложения: \"^[0-9A-F]{32}$\"")
+    @Flaky
     public void testLoginWithHexadecimalTokenSuccess() {
 
         Response response = sendPostLoginWithoutStatusCheck(ENDPOINT, TokenGenerator.getHexadecimalToken());
