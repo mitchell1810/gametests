@@ -65,7 +65,7 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
     @Test
     @Epic(value = "Проверка endpoint")
     @Feature(value = "endpoint")
-    @Story(value = "Проверка POST запроса с 'null' action о возврате 400 ошибки с сообщением " +
+    @Story(value = "Проверка POST запроса с 'null' Action о возврате 400 ошибки с сообщением " +
             "'action: invalid action 'null'. Allowed: LOGIN, LOGOUT, ACTION'")
     public void testMissedActionError() {
 
