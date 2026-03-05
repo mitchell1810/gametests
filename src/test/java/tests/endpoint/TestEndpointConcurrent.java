@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import modelsDTO.ResponseBodyDTO;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
@@ -26,6 +27,19 @@ import static utils.ResponseBodyObtainer.convertJsonDataToResponseBodyDTO;
 @Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(utils.LogContextExtension.class)
 public class TestEndpointConcurrent extends BaseRestAssuredTest {
+
+    @BeforeEach
+    public void checkWireMock() {
+        for (int i = 0; i < 10; i++) {
+            if (wiremockIsRunning) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
     @Test
     @Epic(value = "Проверка endpoint")

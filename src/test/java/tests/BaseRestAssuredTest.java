@@ -8,6 +8,7 @@ import utils.AppConfigLoader;
 public class BaseRestAssuredTest {
     protected static AppConfigLoader appConfigLoader = new AppConfigLoader();
     protected static String ENDPOINT = appConfigLoader.getProperties().getProperty("app.endpoint");
+    public static boolean wiremockIsRunning = false;
 
     @BeforeEach
     public void setup() {

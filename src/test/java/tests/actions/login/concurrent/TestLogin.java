@@ -5,12 +5,12 @@ import enums.Result;
 import enums.Status;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Flaky;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import modelsDTO.ResponseBodyDTO;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
@@ -30,6 +30,19 @@ import static utils.ResponseBodyObtainer.convertJsonDataToResponseBodyDTO;
 @Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(utils.LogContextExtension.class)
 public class TestLogin extends BaseRestAssuredTest {
+
+    @BeforeEach
+    public void checkWireMock() {
+        for (int i = 0; i < 10; i++) {
+            if (wiremockIsRunning) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
     @Test
     @Epic(value = "Проверка действия пользователя")
@@ -56,7 +69,6 @@ public class TestLogin extends BaseRestAssuredTest {
     @Epic(value = "Проверка действия пользователя")
     @Feature(value = "LOGIN")
     @Story(value = "Проверка успешного LOGIN с token, соответствующим выражению из ошибки приложения: \"^[0-9A-F]{32}$\"")
-    @Flaky
     public void testLoginWithHexadecimalTokenSuccess() {
 
         Response response = sendPostLoginWithoutStatusCheck(ENDPOINT, TokenGenerator.getHexadecimalToken());

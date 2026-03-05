@@ -2,7 +2,9 @@ package tests;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -21,6 +23,11 @@ public class BaseWireMockTest extends BaseRestAssuredTest {
     private static final String HOST = appConfigLoader.getProperties().getProperty("wiremock.host");
     private static WireMockServer wireMockServer;
 
+    @BeforeAll
+    public static void flagWireMock() {
+        wiremockIsRunning = true;
+    }
+
     @BeforeEach
     public void startWireMock() {
         wireMockServer = new WireMockServer(options().port(PORT));
@@ -33,6 +40,11 @@ public class BaseWireMockTest extends BaseRestAssuredTest {
         if (wireMockServer != null) {
             wireMockServer.stop();
         }
+    }
+
+    @AfterAll
+    public static void unFlagWireMock() {
+        wiremockIsRunning = false;
     }
 
     protected void setupMocks(String mockUrl, int expectedStatusCode){
