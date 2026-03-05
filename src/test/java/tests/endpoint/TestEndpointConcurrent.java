@@ -30,11 +30,13 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
     @Test
     @Epic(value = "Проверка endpoint")
     @Feature(value = "endpoint")
-    @Story(value = "Проверка POST запроса c некорректным action о возврате 400 ошибки с сообщением " +
+    @Story(value = "Проверка POST запроса c некорректным Action о возврате 400 ошибки с сообщением " +
             "'action: invalid action 'INVALID_ACTION'. Allowed: LOGIN, LOGOUT, ACTION'")
     public void testInvalidActionError() {
+
+        log.info("Посылаю POST запрос на {} с некорректным значением Action: {}", ENDPOINT, Actions.INVALID_ACTION.name());
         Response response = sendPostWithDynamicHeadersAndParams(
-                "/endpoint",
+                ENDPOINT,
                 getCorrectHeaders(),
                 TokenGenerator.getHexadecimalToken(),
                 Actions.INVALID_ACTION,
@@ -51,6 +53,7 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
                 .message(expectedMessage)
                 .build();
 
+        log.info("Проверяю, что Body и Status Code возвращаемого ответа соответствуют ожидаемым значениям:");
         Assertions.assertAll(
                 () -> assertEquals(expectedResponse, actualResponse,
                         "Тело актуального ответа не соответствует телу ожидаемого"),
@@ -66,8 +69,9 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
             "'action: invalid action 'null'. Allowed: LOGIN, LOGOUT, ACTION'")
     public void testMissedActionError() {
 
+        log.info("Посылаю POST запрос на {} с некорректным значением Action: {}", ENDPOINT, null);
         Response response = sendPostWithDynamicHeadersAndParams(
-                "/endpoint",
+                ENDPOINT,
                 getCorrectHeaders(),
                 TokenGenerator.getHexadecimalToken(),
                 null,
@@ -84,6 +88,7 @@ public class TestEndpointConcurrent extends BaseRestAssuredTest {
                 .message(expectedMessage)
                 .build();
 
+        log.info("Проверяю, что Body и Status Code возвращаемого ответа соответствуют ожидаемым значениям:");
         Assertions.assertAll(
                 () -> assertEquals(expectedResponse, actualResponse,
                         "Тело актуального ответа не соответствует телу ожидаемого"),
